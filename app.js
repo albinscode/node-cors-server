@@ -16,7 +16,7 @@ app.get('/no-cors', function(req, res){
 });
 
 /* -------------------------------------------------------------------------- */
-
+app.options('/simple-cors', cors());
 app.get('/simple-cors', cors(), function(req, res){
   res.json({
     text: 'Simple CORS requests are working. [GET]'
