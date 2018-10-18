@@ -4,6 +4,7 @@
 
 var express = require('express'),
     cors = require('cors'),
+    path = require('path'),
     port = process.env.PORT || 3000,
     app = express();
 
@@ -16,6 +17,8 @@ app.get('/no-cors', function(req, res){
 });
 
 /* -------------------------------------------------------------------------- */
+// options are set to allow pre flight requests
+// remove it to show the difference
 app.options('/simple-cors', cors());
 app.get('/simple-cors', cors(), function(req, res){
   res.json({
@@ -29,6 +32,14 @@ app.post('/simple-cors', cors(), function(req, res){
   res.json({
     text: 'Simple CORS requests are working. [POST]'
   });
+});
+
+// CSP  example
+// see https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP
+app.get('/default-csp', cors(), function(req, res){
+  // res.set('Content-Security-Policy', "default-src 'self' https://maxcdn.bootstrapcdn.com")
+  res.set('Content-Security-Policy', "default-src 'self'")
+  res.sendFile(path.join(__dirname + '/csp.html'));
 });
 
 /* -------------------------------------------------------------------------- */
